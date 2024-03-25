@@ -1,0 +1,232 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Expense Tracker API",
+        "description": "This is a simple Expense Tracker API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/expenses": {
+            "get": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Get all expenses",
+                "description": "Get all expenses",
+                "operationId": "8bcf0194356bbaeef047c66188f65944",
+                "responses": {
+                    "200": {
+                        "description": "All expenses"
+                    },
+                    "404": {
+                        "description": "No expenses found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Create a new expense",
+                "description": "Create a new expense",
+                "operationId": "3ea1b5dbe09af5276ecb56173ce789bb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description",
+                                    "amount",
+                                    "category"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Electricity Bill"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "5000"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Utilities"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Expense created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "500": {
+                        "description": "Expense not created"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/expenses/{id}": {
+            "get": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Get a single expense",
+                "description": "Get a single expense",
+                "operationId": "64b051c55aa8ec7bc35dbdbeec5a1358",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the expense",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expense found"
+                    },
+                    "404": {
+                        "description": "Expense not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Update an expense",
+                "description": "Update an expense",
+                "operationId": "ecf2e2616f2c4533434160953c6a2042",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the expense",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description",
+                                    "amount",
+                                    "category"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Electricity Bill"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "5000"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Utilities"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Expense updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "403": {
+                        "description": "Expense not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Expenses"
+                ],
+                "summary": "Delete an expense",
+                "description": "Delete an expense",
+                "operationId": "ec5dfb519e7d7779406d070d83c90e92",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the expense",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expense deleted successfully"
+                    },
+                    "404": {
+                        "description": "Expense not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctumAuth": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

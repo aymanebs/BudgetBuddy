@@ -12,4 +12,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/register' , [AuthController::class, 'register']);
 Route::post('/login' , [AuthController::class, 'login']);
 
-Route::resource('expences' , ExpenseController::class)->middleware('auth:sanctum');
+Route::resource('expenses' , ExpenseController::class)->middleware('auth:sanctum');

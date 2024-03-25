@@ -9,6 +9,24 @@ use Illuminate\Support\Facades\Validator;
 
 class ExpenseController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/expenses",
+     *     summary="Get all expenses",
+     *     description="Get all expenses",
+     *     tags={"Expenses"},
+     *     @OA\Response(response = "200", description="All expenses"),
+     *     @OA\Response(response = "404", description="No expenses found"),
+     *     @OA\SecurityScheme(
+     *         type="apiKey",
+     *         in="header",
+     *         securityScheme="sanctum",
+     *         name="Authorization"
+     *     ),
+     *     security={{"sanctum": {}}},
+     * )
+     */
+
     public function index(){
 
         $expenses =Expense::all();
@@ -26,6 +44,35 @@ class ExpenseController extends Controller
         
     }
     
+    /**
+     * @OA\Post(
+     *   path="/api/expenses",
+     *   summary="Create a new expense",
+     *   description="Create a new expense",
+     *   tags={"Expenses"},
+     *   @OA\RequestBody(
+     *      required=true,
+     *    @OA\JsonContent(
+     *     required={"description","amount","category"},
+     *    @OA\Property(property="description", type="string", format="string", example="Electricity Bill"),
+     *    @OA\Property(property="amount", type="integer", format="integer", example="5000"),
+     *    @OA\Property(property="category", type="string", format="string", example="Utilities"),
+     *   ),
+     *   ),
+     *   @OA\Response(response="201", description="Expense created successfully"),
+     *   @OA\Response(response="422", description="Validation errors"),
+     *   @OA\Response(response="500", description="Expense not created"),
+     *   @OA\SecurityScheme(
+     *         type="apiKey",
+     *         in="header",
+     *         securityScheme="sanctum",
+     *         name="Authorization"
+     *     ),
+     *     security={{"sanctum": {}}},
+     *
+     * )
+     * 
+     */
     public function store(Request $request){
 
         $ExpenseValidator = Validator::make($request->all(),[
@@ -62,6 +109,30 @@ class ExpenseController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/expenses/{id}",
+     *    summary="Get a single expense",
+     *    description="Get a single expense",
+     *    tags={"Expenses"},
+     *   @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID of the expense",
+     *     required=true,
+     *     @OA\Schema(type="integer")
+     *   ),
+     *   @OA\Response(response="200", description="Expense found"),
+     *   @OA\Response(response="404", description="Expense not found"),
+     *   @OA\SecurityScheme(
+     *   type="apiKey",
+     *   in="header",
+     *   securityScheme="sanctum",
+     *   name="Authorization"
+     *   ),
+     *   security={{"sanctum": {}}},
+     * )
+     */
     public function show($id){
 
         $expense = Expense::find($id);
@@ -78,6 +149,41 @@ class ExpenseController extends Controller
         ] , 200);
     }
 
+    /**
+     * @OA\Put(
+     *   path="/api/expenses/{id}",
+     *   summary="Update an expense",
+     *   description="Update an expense",
+     *   tags={"Expenses"},
+     *  @OA\Parameter(
+     *    name="id",
+     *    in="path",
+     *    description="ID of the expense",
+     *    required=true,
+     *   @OA\Schema(type="integer")
+     * ),
+     * @OA\RequestBody(
+     *   required=true,
+     * @OA\JsonContent(
+     * required={"description","amount","category"},
+     * @OA\Property(property="description", type="string", format="string", example="Electricity Bill"),
+     * @OA\Property(property="amount", type="integer", format="integer", example="5000"),
+     * @OA\Property(property="category", type="string", format="string", example="Utilities"),
+     * ),
+     * ),
+     * @OA\Response(response="200", description="Expense updated successfully"),
+     * @OA\Response(response="422", description="Validation errors"),
+     * @OA\Response(response="403", description="Expense not found"),
+     * @OA\SecurityScheme(
+     * type="apiKey",
+     * in="header",
+     * securityScheme="sanctum",
+     * name="Authorization"
+     * ),
+     * security={{"sanctum": {}}},
+     * )
+     */ 
+     
     public function update(Request $request, $id){
         
             $expense = Expense::find($id);
@@ -85,7 +191,7 @@ class ExpenseController extends Controller
             if(!$expense){
                 return response()->json([
                     'message' => 'Expense not found',
-                ] , 404);
+                ] , 403);
             }
 
             $ExpenseValidator = Validator::make($request->all(),[
@@ -111,6 +217,30 @@ class ExpenseController extends Controller
            ] , 200);
     }
 
+    /**
+     * @OA\Delete(
+     *  path="/api/expenses/{id}",
+     *  summary="Delete an expense",
+     *  description="Delete an expense",
+     *  tags={"Expenses"},
+     *  @OA\Parameter(
+     *   name="id",
+     *   in="path",
+     *   description="ID of the expense",
+     *   required=true,
+     *   @OA\Schema(type="integer")
+     *  ),
+     *  @OA\Response(response="200", description="Expense deleted successfully"),
+     *  @OA\Response(response="404", description="Expense not found"),
+     *  @OA\SecurityScheme(
+     *  type="apiKey",
+     *  in="header",
+     *  securityScheme="sanctum",
+     *  name="Authorization"
+     *  ),
+     *  security={{"sanctum": {}}},
+     * )
+     */
     public function destroy($id){
 
         $expense = Expense::findOrFail($id);
