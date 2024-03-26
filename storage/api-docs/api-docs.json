@@ -24,7 +24,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctumAuth": []
                     }
                 ]
             },
@@ -80,7 +80,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctumAuth": []
                     }
                 ]
             }
@@ -114,7 +114,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctumAuth": []
                     }
                 ]
             },
@@ -181,7 +181,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctumAuth": []
                     }
                 ]
             },
@@ -213,7 +213,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctumAuth": []
                     }
                 ]
             }

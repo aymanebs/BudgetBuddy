@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
 
 class ExpenseController extends Controller
 {
@@ -17,13 +21,7 @@ class ExpenseController extends Controller
      *     tags={"Expenses"},
      *     @OA\Response(response = "200", description="All expenses"),
      *     @OA\Response(response = "404", description="No expenses found"),
-     *     @OA\SecurityScheme(
-     *         type="apiKey",
-     *         in="header",
-     *         securityScheme="sanctum",
-     *         name="Authorization"
-     *     ),
-     *     security={{"sanctum": {}}},
+     *     security={{"sanctumAuth": {}}},
      * )
      */
 
@@ -62,13 +60,7 @@ class ExpenseController extends Controller
      *   @OA\Response(response="201", description="Expense created successfully"),
      *   @OA\Response(response="422", description="Validation errors"),
      *   @OA\Response(response="500", description="Expense not created"),
-     *   @OA\SecurityScheme(
-     *         type="apiKey",
-     *         in="header",
-     *         securityScheme="sanctum",
-     *         name="Authorization"
-     *     ),
-     *     security={{"sanctum": {}}},
+     *   security={{"sanctumAuth": {}}},
      *
      * )
      * 
@@ -124,18 +116,14 @@ class ExpenseController extends Controller
      *   ),
      *   @OA\Response(response="200", description="Expense found"),
      *   @OA\Response(response="404", description="Expense not found"),
-     *   @OA\SecurityScheme(
-     *   type="apiKey",
-     *   in="header",
-     *   securityScheme="sanctum",
-     *   name="Authorization"
-     *   ),
-     *   security={{"sanctum": {}}},
+     *   security={{"sanctumAuth": {}}},
      * )
      */
     public function show($id){
 
+        
         $expense = Expense::find($id);
+        
 
         if(!$expense){
             return response()->json([
@@ -174,13 +162,7 @@ class ExpenseController extends Controller
      * @OA\Response(response="200", description="Expense updated successfully"),
      * @OA\Response(response="422", description="Validation errors"),
      * @OA\Response(response="403", description="Expense not found"),
-     * @OA\SecurityScheme(
-     * type="apiKey",
-     * in="header",
-     * securityScheme="sanctum",
-     * name="Authorization"
-     * ),
-     * security={{"sanctum": {}}},
+     * security={{"sanctumAuth": {}}},
      * )
      */ 
      
@@ -232,13 +214,7 @@ class ExpenseController extends Controller
      *  ),
      *  @OA\Response(response="200", description="Expense deleted successfully"),
      *  @OA\Response(response="404", description="Expense not found"),
-     *  @OA\SecurityScheme(
-     *  type="apiKey",
-     *  in="header",
-     *  securityScheme="sanctum",
-     *  name="Authorization"
-     *  ),
-     *  security={{"sanctum": {}}},
+     *  security={{"sanctumAuth": {}}},
      * )
      */
     public function destroy($id){

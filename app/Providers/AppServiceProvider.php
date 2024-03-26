@@ -2,7 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Expense;
+use App\Policies\ExpensePolicy;
+use Illuminate\Auth\Access\Gate;
+use Illuminate\Contracts\Auth\Access\Gate as AccessGate;
+use Illuminate\Support\Facades\Gate as FacadesGate;
 use Illuminate\Support\ServiceProvider;
+
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        
+   
     }
 }
