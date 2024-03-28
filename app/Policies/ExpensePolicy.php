@@ -11,7 +11,7 @@ class ExpensePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
         return true;
     }
@@ -22,8 +22,8 @@ class ExpensePolicy
     public function view(User $user, Expense $expense)
     {
         return $user->id === $expense->user_id
-            ? Response::allow()
-            : Response::deny('You do not own this expense.');
+        ? Response::allow()
+        : response()->json(['message' => 'You do not own this expense.'], 403);
     }
 
     /**
@@ -40,8 +40,8 @@ class ExpensePolicy
     public function update(User $user, Expense $expense)
     {
         return $user->id === $expense->user_id
-            ? Response::allow()
-            : Response::deny('You do not own this expense.');
+        ? Response::allow()
+        : response()->json(['message' => 'You do not own this expense.'], 403);
     }
 
     /**
@@ -50,8 +50,8 @@ class ExpensePolicy
     public function delete(User $user, Expense $expense)
     {
         return $user->id === $expense->user_id
-            ? Response::allow()
-            : Response::deny('You do not own this expense.');
+        ? Response::allow()
+        : response()->json(['message' => 'You do not own this expense.'], 403);
     }
 
 

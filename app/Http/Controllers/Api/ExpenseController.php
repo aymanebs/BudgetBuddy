@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
-
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -27,7 +26,9 @@ class ExpenseController extends Controller
 
     public function index(){
 
-        $expenses =Expense::all();
+        $user = Auth::user();
+        
+        $expenses = $user->expenses;
 
         if($expenses->isEmpty()){
             return response()->json([
@@ -123,7 +124,7 @@ class ExpenseController extends Controller
 
         
         $expense = Expense::find($id);
-        
+        Gate::authorize('view', $expense);
 
         if(!$expense){
             return response()->json([
@@ -169,6 +170,7 @@ class ExpenseController extends Controller
     public function update(Request $request, $id){
         
             $expense = Expense::find($id);
+            Gate::authorize('update', $expense);
 
             if(!$expense){
                 return response()->json([
@@ -220,6 +222,7 @@ class ExpenseController extends Controller
     public function destroy($id){
 
         $expense = Expense::findOrFail($id);
+        Gate::authorize('delete', $expense);
 
         if(!$expense){
             return response()->json([
